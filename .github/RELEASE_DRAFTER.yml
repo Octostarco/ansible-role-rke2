@@ -11,7 +11,8 @@ categories:
       - 'bugfix'
       - 'bug'
   - title: 'Documentation'
-    label: 'documentation'
+    labels:
+      - 'documentation'
 version-resolver:
   major:
     labels:
