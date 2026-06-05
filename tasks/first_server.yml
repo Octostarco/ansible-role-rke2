@@ -117,7 +117,7 @@
   ansible.builtin.systemd:
     name: "rke2-agent.service"
     enabled: false
-    masked: true
+    masked: "{{ (not usr_local.stat.writeable) or (partition_result.rc == 1) }}"
 
 - name: Wait for the first server be ready - no CNI
   ansible.builtin.shell: |
@@ -130,7 +130,7 @@
     - '"kubelet has sufficient memory available"  in node_status.stdout_lines'
     - '"kubelet has no disk pressure"  in node_status.stdout_lines'
     - '"kubelet has sufficient PID available"  in node_status.stdout_lines'
-    - ('"cni plugin not initialized" in node_status.stdout' or '"kubelet is posting ready status." in node_status.stdout')
+    - ("cni plugin not initialized" in node_status.stdout) or ("kubelet is posting ready status" in node_status.stdout)
   retries: 100
   delay: 15
   when:
