@@ -82,6 +82,34 @@ rke2_kubevip_service_election_enable: true
 # Prometheus metrics port for kube-vip
 rke2_kubevip_metrics_port: 2112
 
+# Enable ARP for kube-vip load balancer
+rke2_kubevip_arp_enable: true
+
+# Enable kube-vip control plane load balancer for RKE2
+rke2_kubevip_cp_enable: true
+
+# Namespace for kube-vip control plane load balancer
+rke2_kubevip_cp_namespace: "kube-system"
+
+# Enable kube-vip DDNS for control plane load balancer
+rke2_kubevip_ddns_enable: false
+
+# Enable kube-vip UPnP for control plane load balancer
+rke2_kubevip_upnp_enable: false
+
+# Enable kube-vip leader election for control plane load balancer
+rke2_kubevip_leaderelection_enable: true
+
+# Resources for kubevip DaemonSet Pods.
+rke2_kubevip_daemonset_resources: {}
+#  requests:
+#    memory: 40Mi
+
+# Resources for kubevip cloud controller Pods.
+rke2_kubevip_cloud_controller_resources: {}
+#  requests:
+#    memory: 40Mi
+
 # Add additional SANs in k8s API TLS cert
 rke2_additional_sans: []
 
@@ -147,6 +175,12 @@ rke2_airgap_copy_additional_tarballs: []
 
 # Destination for airgap additional images tarballs ( see https://docs.rke2.io/install/airgap#tarball-method )
 rke2_tarball_images_path: "{{ rke2_data_path }}/agent/images"
+
+# Enable Conditional Image Imports - create a .cache.json file in the images directory so that
+# RKE2 only reimports tarballs that have changed (by size or mtime) since the last import, even
+# across restarts. Speeds up startup at the cost of guaranteed image reimport on every boot.
+# See https://docs.rke2.io/install/airgap?airgap-load-images=Manually+Deploy+Images#enable-conditional-image-imports
+rke2_conditional_image_imports: false
 
 # Architecture to be downloaded, currently there are releases for amd64 and s390x
 rke2_architecture: amd64
